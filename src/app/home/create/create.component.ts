@@ -1,9 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { estudiante } from '../estudiante';
+import { estudiante, soccerTeam } from '../soccerTeam';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { EstudiantesService } from 'src/app/services/estudiantes.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { SoccerTeamService } from 'src/app/services/soccer-team.service';
 
 @Component({
   selector: 'app-create',
@@ -14,28 +15,25 @@ export class CreateComponent implements OnInit {
 
   section: boolean = true;
 
-  user: estudiante = {
-    nombres: '',
-    apellidos: '',
-    notas: {
-      nota_1: 0,
-      nota_2: 0,
-      nota_3: 0,
-      nota_4: 0,
-      nota_5: 0,
-      total: 0,
-    }
+  soccerTeam: soccerTeam = {
+    id: '',
+    name: '',
+    country: '',
+    year_fundation: '',
+    name_stadium: '',
+    tittles: 0,
+    shieldTeam: ''
   }
 
   id: string = '';
 
-  constructor(private estudianteService: EstudiantesService,
+  constructor(private soccerTeamService:SoccerTeamService,
     private alertController: AlertController,
     private loadingController: LoadingController,
     public dialogref: MatDialogRef<CreateComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     if (data) {
-      this.user = data;
+      this.soccerTeam = data;
       this.section = false;
       this.id = data.id;
     }
@@ -48,25 +46,23 @@ export class CreateComponent implements OnInit {
       if (this.section) {
         const loading = await this.loadingController.create();
         await loading.present();
-        this.user.notas.total = (this.user.notas.nota_1 * 0.20 + this.user.notas.nota_2 * 0.20 + this.user.notas.nota_3 * 0.20 + this.user.notas.nota_4 * 0.10 + this.user.notas.nota_5 * 0.30);
         this.dialogref.close(true);
-        this.estudianteService.createEstudiante(this.user).then(
+        this.soccerTeamService.createSoccerTeam(this.soccerTeam).then(
           async () => {
-            this.showAlert('Estudiante creado', 'Exitosamente!!');
+            this.showAlert('Exito!!', 'El equipo de futbol a sido registrado.');
             await loading.dismiss();
           }
-        ).catch(async e => { await loading.dismiss(); console.log(e); this.showAlert('Hubo un error', 'Fracaso!!'); });
+        ).catch(async e => { await loading.dismiss(); console.log(e); this.showAlert('Error', 'Se ha producido un error') });
       } else {
         const loading = await this.loadingController.create();
-        await loading.present();
-        this.user.notas.total = (this.user.notas.nota_1 * 0.20 + this.user.notas.nota_2 * 0.20 + this.user.notas.nota_3 * 0.20 + this.user.notas.nota_4 * 0.10 + this.user.notas.nota_5 * 0.30);
         this.dialogref.close(true);
-        this.estudianteService.updateEstudiante(this.id, this.user).then(
+        this.soccerTeamService.updateSoccerTeam(this.id, this.soccerTeam).then(
           async () => {
-            this.showAlert('Estudiante actualizado', 'Exitosamente!!');
+            await loading.present();
+            this.showAlert('Exito!!', 'El equipo de futbol a sido actulizado.');
             await loading.dismiss();
           }
-        ).catch(async e => { await loading.dismiss(); console.log(e); this.showAlert('Hubo un error', 'Fracaso!!'); });
+        ).catch(async e => { await loading.dismiss(); console.log(e); this.showAlert('Error', 'Se ha producido un error') });
       }
     }
   }

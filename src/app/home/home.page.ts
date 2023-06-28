@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { estudiante } from './estudiante';
+import { estudiante } from './soccerTeam';
 import { EstudiantesService } from '../services/estudiantes.service';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { MatDialog } from '@angular/material/dialog';

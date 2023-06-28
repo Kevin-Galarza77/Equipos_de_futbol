@@ -1,57 +1,51 @@
 <form (ngSubmit)="onSubmit(form)" #form="ngForm" class="p-5">
   <div class="row">
-    <p class="display-6 text-danger mb-4 text-center">{{section ? 'Nuevo Estudiante' : 'Editar Estudiante' }}</p>
+    <p class="display-6 text-danger mb-4 text-center py-4 border-bottom border-top border-secondary">{{section ? 'Nuevo Equipo de Futbol' : 'Editar Equipo de Futbol' }}</p>
     <div class="col">
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" name="nombre" [(ngModel)]="user.nombres" id="floatingInput" placeholder="name@example.com" required>
-        <label for="floatingInput">Nombres</label>
+        <input type="text" class="form-control" name="name" oninput="this.value = this.value.toUpperCase()" [(ngModel)]="soccerTeam.name" id="name" placeholder="name@example.com" required>
+        <label for="floatingInput">Nombre</label>
       </div>
     </div>
+
     <div class="col">
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" name="apellido" [(ngModel)]="user.apellidos" id="floatingInput" placeholder="name@example.com" required >
-        <label for="floatingInput">Apellidos</label>
+        <input type="text" class="form-control" name="country" oninput="this.value = this.value.toUpperCase()"oninput="this.value = this.value.toUpperCase()" [(ngModel)]="soccerTeam.country" id="country" placeholder="Ecuador" required>
+        <label for="floatingInput">Pais</label>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input type="number" min="1500" max="2099" class="form-control" name="year_fundation" [(ngModel)]="soccerTeam.year_fundation" id="year_fundation" placeholder="Ecuador" required>
+        <label for="floatingInput">Año de Fundación</label>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" name="name_stadium" oninput="this.value = this.value.toUpperCase()" [(ngModel)]="soccerTeam.name_stadium" id="name_stadium" placeholder="Ecuador" required>
+        <label for="floatingInput">Nombre del Estadio</label>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input type="number" min="0" class="form-control" name="tittles" [(ngModel)]="soccerTeam.tittles" id="tittles" placeholder="Ecuador" required>
+        <label for="floatingInput">Titulos</label>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input type="file" min="0" class="form-control" name="shieldTeam" [(ngModel)]="soccerTeam.shieldTeam" id="shieldTeam" placeholder="Ecuador" required>
+        <label for="floatingInput">Escudo</label>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col">
-      <div class="form-floating mb-3">
-        <input type="number" class="form-control" name="nota_1" [max]="10" [min]="0" [(ngModel)]="user.notas.nota_1" id="floatingInput" placeholder="name@example.com" required>
-        <label for="floatingInput">Nota 1</label>
-      </div>
-    </div>
 
-    <div class="col">
-      <div class="form-floating mb-3">
-        <input type="number" class="form-control" name="nota_2" [max]="10" [min]="0" [(ngModel)]="user.notas.nota_2" id="floatingInput" placeholder="name@example.com" required>
-        <label for="floatingInput">Nota 2</label>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="form-floating mb-3">
-        <input type="number" class="form-control" name="nota_3" [max]="10" [min]="0" [(ngModel)]="user.notas.nota_3" id="floatingInput" placeholder="name@example.com" required>
-        <label for="floatingInput">Nota 3</label>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="form-floating mb-3">
-        <input type="number" class="form-control" name="nota_4" [max]="10" [min]="0" [(ngModel)]="user.notas.nota_4" id="floatingInput" placeholder="name@example.com" required>
-        <label for="floatingInput">Nota 4</label>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="form-floating mb-3">
-        <input type="number" class="form-control" name="nota_5" [max]="10" [min]="0" [(ngModel)]="user.notas.nota_5" id="floatingInput" placeholder="name@example.com" required>
-        <label for="floatingInput">Nota 5</label>
-      </div>
-    </div>
-  </div>
   <div class="d-flex justify-content-around align-items-center w-100 mt-4 flex-wrap">
-    <button type="button" (click)="dialogref.close()" class="btn btn-dark px-5 m-2">Cancelar</button>
-    <button type="submit" class="btn btn-danger px-5 m-2">{{ section ? 'Crear Estudiante' : 'Guardar cambios' }}</button>
+    <button type="button" (click)="dialogref.close()" class="btn btn-secondary px-5 m-2">Cancelar</button>
+    <button type="submit" class="btn btn-danger px-5 m-2">{{ section ? 'Crear Equipo de Futbol' : 'Guardar cambios' }}</button>
   </div>
 </form>
