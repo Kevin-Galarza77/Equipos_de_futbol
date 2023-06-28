@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start" class="p-2">
+			<ion-button (click)="logout()">
+				<ion-icon slot="icon-only" name="log-out"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+    <ion-title class="text-center display-6 py-2 bg-success text-light fw-bolder">ESTUDIANTES</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="d-flex justify-content-center align-items-center flex-column w-100 container">
+    <p class="text-center display-5 my-4">Listado</p>
+    <div class="d-flex justify-content-end align-items-center w-100 mb-3">
+      <ion-button (click)="createStudent()"><ion-icon name="add-circle-outline" class="mx-2"></ion-icon>Estudiante</ion-button>
+    </div>
+    <div class="container scroll">
+      <table class="table table-hover">
+        <thead class="table-secondary">
+          <tr>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Nota 1</th>
+            <th>Nota 2</th>
+            <th>Nota 3</th>
+            <th>Nota 4</th>
+            <th>Nota 5</th>
+            <th>Total</th>
+            <th>Editar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let estudiante of estudiantes">
+            <td>{{ estudiante.nombres }}</td>
+            <td>{{ estudiante.apellidos }}</td>
+            <td>{{ estudiante.notas.nota_1 }}</td>
+            <td>{{ estudiante.notas.nota_2 }}</td>
+            <td>{{ estudiante.notas.nota_3 }}</td>
+            <td>{{ estudiante.notas.nota_4 }}</td>
+            <td>{{ estudiante.notas.nota_5 }}</td>
+            <td>{{ estudiante.notas.total }}</td>
+            <td><ion-button (click)="updateStudent(estudiante)" class="m-1" color="success"><ion-icon name="pencil-outline"></ion-icon></ion-button>
+              <ion-button (click)="deleteStudent(estudiante.id)" class="m-1" color="danger"><ion-icon name="trash-outline"></ion-icon></ion-button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ion-content>

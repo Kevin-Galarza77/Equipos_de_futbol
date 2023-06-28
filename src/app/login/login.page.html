@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+  <ion-toolbar >
+    <ion-title class="text-center display-6 py-2 bg-success text-light fw-bolder">LOGIN</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="d-flex h-100 justify-content-center align-items-center flex-column m-5">
+    <form [formGroup]="loginForm" (ngSubmit)="login()" class="w-100">
+      <div class="row">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input type="email" formControlName="email" matInput placeholder="Ex. pat@example.com" required>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your password</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" required>
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="d-flex justify-content-center align-items-center">
+        <button type="submit" class="btn btn-success px-5 m-3">Iniciar Sesión</button>
+      </div>
+    </form>
+  </div>
+</ion-content>

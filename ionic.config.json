@@ -1,0 +1,7 @@
+{
+  "name": "evaluacion",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
