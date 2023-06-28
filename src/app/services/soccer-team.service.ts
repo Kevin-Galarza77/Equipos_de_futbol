@@ -12,6 +12,7 @@ export class SoccerTeamService {
   collection_name: string = 'soccer_team';
 
   constructor(private firestore: Firestore) {
+    this.updateData();
   }
 
   updateData() {
@@ -20,6 +21,7 @@ export class SoccerTeamService {
   }
 
   getSoccerTeams() {
+    this.updateData();
     return this.item$;
   }
 

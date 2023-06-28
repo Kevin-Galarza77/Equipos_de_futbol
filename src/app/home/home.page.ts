@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { estudiante } from './soccerTeam';
-import { EstudiantesService } from '../services/estudiantes.service';
+import { soccerTeam } from './soccerTeam';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateComponent } from './create/create.component';
+import { SoccerTeamService } from '../services/soccer-team.service';
 
 @Component({
   selector: 'app-home',
@@ -14,10 +14,10 @@ import { CreateComponent } from './create/create.component';
 })
 export class HomePage implements OnInit {
 
-  estudiantes: estudiante[] = [];
+  soccerTeams: soccerTeam[] = [];
 
   constructor(private authService: AuthService,
-    private estudianteService: EstudiantesService,
+    private soccerTeamService: SoccerTeamService,
     private loadingController: LoadingController,
     public dialog: MatDialog,
     private alertController: AlertController,
@@ -31,15 +31,15 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTodosEstudiantes();
+    this.getAllSoccerTeams();
   }
 
-  async getTodosEstudiantes() {
+  async getAllSoccerTeams() {
     const loading = await this.loadingController.create();
     await loading.present();
-    this.estudianteService.getEstudiantes().subscribe({
+    this.soccerTeamService.getSoccerTeams().subscribe({
       next: async result => {
-        this.estudiantes = result;
+        this.soccerTeams = result;
         await loading.dismiss();
       },
       error: async e => {
@@ -49,41 +49,47 @@ export class HomePage implements OnInit {
     })
   }
 
-  createStudent() {
-    const newProduct = this.dialog.open(CreateComponent, {
+  createSoccerTeam() {
+    const SoccerTeam = this.dialog.open(CreateComponent, {
       height: 'auto',
       maxHeight: '95vh',
       width: '50%',
       minWidth: '300px'
     });
-    newProduct.afterClosed().subscribe(response => {
-      if (response) this.getTodosEstudiantes();
+    SoccerTeam.afterClosed().subscribe(response => {
+      if (response) this.getAllSoccerTeams();
     })
   }
 
-  updateStudent(estudent: estudiante) {
-    const newProduct = this.dialog.open(CreateComponent, {
+  updateSoccerTeam(soccerTeam: soccerTeam) {
+    const SoccerTeam = this.dialog.open(CreateComponent, {
       height: 'auto',
       maxHeight: '95vh',
       width: '50%',
       minWidth: '300px',
-      data: estudent
+      data: soccerTeam
     });
-    newProduct.afterClosed().subscribe(response => {
-      if (response) this.getTodosEstudiantes();
+    SoccerTeam.afterClosed().subscribe(response => {
+      if (response) this.getAllSoccerTeams();
     })
   }
 
-  async deleteStudent(id:any){
-    const loading = await this.loadingController.create();
-    await loading.present();
-    this.estudianteService.deleteStudent(id).then(
-      async () => {
-        this.showAlert('Estudiante eliminado', 'Exitosamente!!');
-        await loading.dismiss();
-        this.getTodosEstudiantes();
-      }
-    ).catch(async e => { await loading.dismiss(); console.log(e); this.showAlert('Hubo un error', 'Fracaso!!'); });
+  async deleteSoccerTeam(id: any) {
+
+    const confirmed = await this.showConfirmation('Alerta', '¿Estás seguro de eliminar este Equipo de Fútbol?');
+
+    if (confirmed) {
+      const loading = await this.loadingController.create();
+      await loading.present();
+      this.soccerTeamService.deleteSoccerTeam(id).then(
+        async () => {
+          this.showAlert('Exito!!', 'El equipo de futbol a sido eliminado.');
+          await loading.dismiss();
+          this.getAllSoccerTeams();
+        }
+      ).catch(async e => { await loading.dismiss(); console.log(e); this.showAlert('Hubo un error', 'Fracaso!!'); });
+    }
+
   }
 
   async showAlert(header: any, message: any) {
@@ -94,5 +100,32 @@ export class HomePage implements OnInit {
     });
     await alert.present();
   }
+
+  async showConfirmation(header: any, message: any): Promise<boolean> {
+    return new Promise<boolean>(async (resolve) => {
+      const alert = await this.alertController.create({
+        header,
+        message,
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            handler: () => {
+              resolve(false); // Resuelve la promesa con valor false (cancelado)
+            }
+          },
+          {
+            text: 'Aceptar',
+            handler: () => {
+              resolve(true); // Resuelve la promesa con valor true (aceptado)
+            }
+          }
+        ]
+      });
+
+      await alert.present();
+    });
+  }
+
 
 }

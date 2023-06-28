@@ -1,8 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { estudiante, soccerTeam } from '../soccerTeam';
+import { soccerTeam } from '../soccerTeam';
 import { AlertController, LoadingController } from '@ionic/angular';
-import { EstudiantesService } from 'src/app/services/estudiantes.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SoccerTeamService } from 'src/app/services/soccer-team.service';
 
@@ -27,7 +26,7 @@ export class CreateComponent implements OnInit {
 
   id: string = '';
 
-  constructor(private soccerTeamService:SoccerTeamService,
+  constructor(private soccerTeamService: SoccerTeamService,
     private alertController: AlertController,
     private loadingController: LoadingController,
     public dialogref: MatDialogRef<CreateComponent>,
@@ -40,10 +39,9 @@ export class CreateComponent implements OnInit {
   }
 
   ngOnInit() { }
-
   async onSubmit(form: NgForm) {
     if (form.valid) {
-      if (this.section) {
+      if (!this.section) {
         const loading = await this.loadingController.create();
         await loading.present();
         this.dialogref.close(true);
