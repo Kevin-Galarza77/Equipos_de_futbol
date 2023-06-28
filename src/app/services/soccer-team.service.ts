@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, deleteDoc, doc, setDoc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, setDoc, updateDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { soccerTeam } from '../home/soccerTeam';
+
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +27,8 @@ export class SoccerTeamService {
   }
 
   createSoccerTeam(soccer_team: soccerTeam) {
-    const document: any = collection(this.firestore, this.collection_name);
-    return setDoc(doc(document), soccer_team);
+    const collectionRef = collection(this.firestore, this.collection_name);
+    return addDoc(collectionRef, soccer_team)
   }
 
   updateSoccerTeam(soccer_team_id: string, soccer_team: any): Promise<void> {
@@ -39,6 +40,5 @@ export class SoccerTeamService {
     const estudianteDoc = doc(this.firestore, this.collection_name, soccer_team_id);
     return deleteDoc(estudianteDoc);
   }
-
 
 }
